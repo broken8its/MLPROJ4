@@ -32,6 +32,18 @@ class LogReg:
                         dimVals[self.itt3] = self.rawMushData[self.itt, self.itt2]
                         break
             self.mushData[self.itt] = mushDataTemp
+        return mushData
+
+    #this function is doing the regression, should only take data and hyperParameters
+    def logReg(self, dataset, learningRate):
+        shapeOData = dataset.shape()
+        Ws = np.zeros(shapeOData, dtype=np.double)
+        bias = np.zeros(shapeOData[1], dtype=np.double)
+        Xs = #is dataset only Xs?
+        Ts = #do we have this even, poisonous/not?
+        yPred = np.zeros(Ts.shape(),dtype=np.double)
+        m = len(Ts)
+        
 
 
     def sigmoid(self, Z):
