@@ -3,6 +3,36 @@ import numpy as np
 class LogReg:
     def __init__(self):
         self.itt = np.intc(0)
+        self.itt2 = np.intc(0)
+        self.itt3 = np.intc(0)
+
+    def getData(self, filename):
+        self.rawMushData = np.loadtxt(filename, delimiter = ',', dtype = np.unicode_)
+        self.dimLabels = self.rawMushData[0]
+        self.rawMushData = self.rawMushData.T
+
+        # Gets shape of data and subtracts labels row
+        mushShape = self.rawMushData.shape
+        mushShape[1] = mushShape[1] - np.intc(1)
+        self.mushData = np.zeros(mushShape, dtype = np.intc)
+
+        # Converts discreet letter values to ints
+        for self.itt in range (mushShape[0]):
+            mushDataTemp = np.zeros(mushShape[1], dtype = np.intc)
+            dimVals = np.zeros(26, dtype = np.unicode_)
+            valCounter = np.intc(0)
+            for self.itt2 in range (mushShape[1]):
+                for self.itt3 in range (26):
+                    if self.rawMushData[self.itt, self.itt2] == dimVals[self.itt3]:
+                        mushDataTemp[self.itt2] = self.itt3
+                        break
+                    elif dimVals[self.itt3] == np.unicode_(0):
+                        mushDataTemp[self.itt2] = valCounter
+                        valCounter = valCounter + np.intc(1)
+                        dimVals[self.itt3] = self.rawMushData[self.itt, self.itt2]
+                        break
+            self.mushData[self.itt] = mushDataTemp
+
 
     def sigmoid(self, Z):
         return np.double(1) / (np.double(1) + np.e ** (-Z))
