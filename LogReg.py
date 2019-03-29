@@ -32,17 +32,37 @@ class LogReg:
                         dimVals[self.itt3] = self.rawMushData[self.itt, self.itt2]
                         break
             self.mushData[self.itt] = mushDataTemp
-        return mushData
+        return self.mushData
 
-    #this function is doing the regression, should only take data and hyperParameters
+    #this function is doing the regression, should only take dataset and hyperParameters
     def logReg(self, dataset, learningRate):
         shapeOData = dataset.shape()
-        Ws = np.zeros(shapeOData, dtype=np.double)
-        bias = np.zeros(shapeOData[1], dtype=np.double)
-        Xs = #is dataset only Xs?
-        Ts = #do we have this even, poisonous/not?
-        yPred = np.zeros(Ts.shape(),dtype=np.double)
+        Ws = np.zeros((shapeOData[1],shapeOData[0]), dtype=np.double)
+        bias = np.zeros(shapeOData[0], dtype=np.double)
+        Xs = dataset.T
+        Ts = dataset[0].T
+        yPred = np.zeros(Ts.shape(),dtype=np.intc)
         m = len(Ts)
+        for self.itt in range(np.shape(Xs)[0]):
+            Xs[self.itt][0] = 1
+        for self.itt in range(3000):
+            Z = np.dot(Xs,Ws) + bias
+            self.A = self.sigmoid(Z)
+            loss = self.logLoss(self.A,Ts)
+            dz = self.A - Ts
+            dw = np.double(1/m) * np.dot(Xs.T,dz)
+            dbias = np.sum(dz)
+            Ws = Ws - learningRate * dw
+            bias = bias - learningRate * dbias
+
+            if(self.itt%100==0):
+                print(loss)
+        i = np.double(0)
+        self.itt = np.intc(0)
+        for i in range(self.A):
+            itt=itt+1
+            if i > np.double(.5):
+                yPred[itt] = np.intc(1)
         
 
 
@@ -50,4 +70,4 @@ class LogReg:
         return np.double(1) / (np.double(1) + np.e ** (-Z))
 
     def logLoss(self, yPred, target):
-        return -np.mean(target * np.log(target) + (np.double(1) - target) * np.log(np.double(1) - yPred))
+        return -np.mean(target * np.log(target) + (np.double(1) - target) * np.log(np.double(1) - yPred), dtype=np.double)
