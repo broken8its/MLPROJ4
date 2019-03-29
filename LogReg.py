@@ -1,5 +1,7 @@
 import numpy as np
 
+__name__ = "LogReg"
+
 class LogReg:
     def __init__(self):
         self.itt = np.intc(0)
