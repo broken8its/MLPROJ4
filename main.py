@@ -2,7 +2,7 @@ from LogReg import LogReg
 import numpy as np 
 import matplotlib.pyplot as plt
 
-class main():
-    lr = LogReg
-    Data = lr.getData(lr, 'mushrooms.csv')
-    predictions = lr.logReg(lr, Data, 0.01)
+
+lr = LogReg
+Data = lr.getData(lr, 'mushrooms.csv')
+predictions = lr.logReg(lr, Data, 0.01)

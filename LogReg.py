@@ -52,7 +52,7 @@ class LogReg:
             self.A = self.sigmoid(self, Z)
             loss = self.logLoss(self, self.A,self.Ts)
             dz = self.A - self.Ts
-            dw = np.double(1/m) * np.dot(self.Xs.T,dz)
+            dw = np.double(1/m) * np.dot(self.Xs.T,dz.T)
             dbias = np.sum(dz)
             self.Ws = self.Ws - learningRate * dw
             bias = bias - learningRate * dbias
@@ -64,8 +64,6 @@ class LogReg:
         for i in range(self.A):
             self.itt=self.itt+1
             if i > np.double(.5):
-                self.yPred[self.itt] = np.intc(1)
-        
                 self.yPred[self.itt] = np.intc(1)
         return self.yPred
 
