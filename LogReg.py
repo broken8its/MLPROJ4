@@ -40,7 +40,7 @@ class LogReg:
     def logReg(self, dataset, learningRate):
         shapeOData = np.array(dataset.shape)
         self.Ws = np.zeros(shapeOData[0], dtype=np.double).T
-        bias = np.zeros(shapeOData[1], dtype=np.double)
+        bias = np.zeros((1,1), dtype=np.double)
         self.Xs = dataset.T
         self.Ts = dataset[0].T
         self.yPred = np.zeros(self.Ts.shape,dtype=np.intc)
@@ -66,8 +66,8 @@ class LogReg:
             if i > np.double(.5):
                 self.yPred[self.itt] = np.intc(1)
         
-                yPred[self.itt] = np.intc(1)
-        return yPred
+                self.yPred[self.itt] = np.intc(1)
+        return self.yPred
 
 
     def sigmoid(self, Z):
