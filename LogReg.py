@@ -42,8 +42,9 @@ class LogReg:
         self.Ws = np.zeros((shapeOData[0]-1,1), dtype=np.double)
         bias = np.zeros((1,1), dtype=np.double)
         self.Xs = dataset[1:].T
-        self.Ts = np.zeros((shapeOData[1],1), dtype=np.intc)
-        self.Ts = dataset[0].T
+        #self.Ts = np.zeros((shapeOData[1],1), dtype=np.intc)
+        self.Ts = np.array(dataset[0]).T
+        self.Ts = self.Ts.reshape(shapeOData[1], 1)
         self.yPred = np.ones((shapeOData[1],1),dtype=np.intc)
         m = len(self.Ts)
         #for self.itt in range(np.shape(self.Xs)[0]):
@@ -55,7 +56,7 @@ class LogReg:
             dz = self.A - self.Ts
             dw = np.double(1/m) * np.dot(self.Xs.T,dz)
             dbias = np.sum(dz)
-            self.Ws = self.Ws - learningRate * dw
+            self.Ws = np.add(self.Ws, -learningRate * dw)
             bias = bias - learningRate * dbias
 
             if(self.itt%100==0):
