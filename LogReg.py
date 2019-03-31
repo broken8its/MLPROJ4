@@ -39,14 +39,14 @@ class LogReg:
     #this function is doing the regression, should only take dataset and hyperParameters
     def logReg(self, dataset, learningRate):
         shapeOData = np.array(dataset.shape)
-        self.Ws = np.zeros(shapeOData[0], dtype=np.double).T
+        self.Ws = np.zeros((shapeOData[0]-1,1), dtype=np.double)
         bias = np.zeros((1,1), dtype=np.double)
-        self.Xs = dataset.T
+        self.Xs = dataset[1:].T
         self.Ts = dataset[0].T
         self.yPred = np.zeros(self.Ts.shape,dtype=np.intc)
         m = len(self.Ts)
-        for self.itt in range(np.shape(self.Xs)[0]):
-            self.Xs[self.itt][0] = 1
+        #for self.itt in range(np.shape(self.Xs)[0]):
+            #self.Xs[self.itt][0] = 1
         for self.itt in range(3000):
             Z = np.dot(self.Xs,self.Ws) + bias
             self.A = self.sigmoid(self, Z)
