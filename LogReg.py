@@ -62,10 +62,12 @@ class LogReg:
         i = np.double(0)
         self.itt = np.intc(0)
         for i in range(self.A):
-            itt=itt+1
+            self.itt=self.itt+1
             if i > np.double(.5):
-                self.yPred[itt] = np.intc(1)
+                self.yPred[self.itt] = np.intc(1)
         
+                yPred[self.itt] = np.intc(1)
+        return yPred
 
 
     def sigmoid(self, Z):
