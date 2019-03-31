@@ -65,7 +65,7 @@ class LogReg:
             itt=itt+1
             if i > np.double(.5):
                 yPred[itt] = np.intc(1)
-        
+        return yPred
 
 
     def sigmoid(self, Z):
