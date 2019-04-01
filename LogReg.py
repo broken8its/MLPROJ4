@@ -39,25 +39,25 @@ class LogReg:
     #this function is doing the regression, should only take dataset and hyperParameters
     def logReg(self, dataset, learningRate, testData):
         shapeOData = np.array(dataset.shape)
-        self.Ws = np.zeros((shapeOData[1]-1,1), dtype=np.double)
+        Ws = np.zeros((shapeOData[1]-1,1), dtype=np.double)
         bias = np.zeros((1,1), dtype=np.double)
-        self.Xs = dataset[:,1:]
-        #self.Ts = np.zeros((shapeOData[1],1), dtype=np.intc)
-        self.Ts = np.array(dataset[:,0])
-        self.Ts = self.Ts.reshape(shapeOData[0], 1)
+        Xs = dataset[:,1:]
+        #Ts = np.zeros((shapeOData[1],1), dtype=np.intc)
+        Ts = np.array(dataset[:,0])
+        Ts = Ts.reshape(shapeOData[0], 1)
         self.yPred = np.zeros((shapeOData[0],1),dtype=np.intc)
-        m = len(self.Ts)
-        #for self.itt in range(np.shape(self.Xs)[0]):
-            #self.Xs[self.itt][0] = 1
+        m = len(Ts)
+        #for self.itt in range(np.shape(Xs)[0]):
+            #Xs[self.itt][0] = 1
         Z = np.zeros((shapeOData[0],1), dtype = np.double)
-        for self.itt in range(5000):
-            Z = np.dot(self.Xs,self.Ws) + bias
-            self.A = self.sigmoid(self, Z)
-            loss = self.logLoss(self, self.A,self.Ts)
-            dz = self.A - self.Ts
-            dw = np.double(1/m) * np.dot(self.Xs.T,dz)
+        for self.itt in range(10000):
+            Z = np.dot(Xs,Ws) + bias
+            A = self.sigmoid(self, Z)
+            loss = self.logLoss(self, A,Ts)
+            dz = A - Ts
+            dw = np.double(1/m) * np.dot(Xs.T,dz)
             dbias = np.sum(dz)
-            self.Ws = np.add(self.Ws, -learningRate * dw)
+            Ws = np.add(Ws, -learningRate * dw)
             bias = bias - learningRate * dbias
 
             if(self.itt%100==0):
@@ -74,7 +74,7 @@ class LogReg:
         testXs = testData[:,1:]
         testTs = testData[:,0]
         testTs = testTs.reshape(testData.shape[0], 1)
-        testZ = np.dot(testXs, self.Ws) + bias
+        testZ = np.dot(testXs, Ws) + bias
         i = np.double(0)
         self.itt = np.intc(0)
         for i in self.sigmoid(self, testZ):
