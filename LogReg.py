@@ -37,19 +37,20 @@ class LogReg:
         return self.mushData
 
     #this function is doing the regression, should only take dataset and hyperParameters
-    def logReg(self, dataset, learningRate):
+    def logReg(self, dataset, learningRate, testData):
         shapeOData = np.array(dataset.shape)
         self.Ws = np.zeros((shapeOData[1]-1,1), dtype=np.double)
         bias = np.zeros((1,1), dtype=np.double)
-        self.Xs = dataset[:][1:]
+        self.Xs = dataset[:,1:]
         #self.Ts = np.zeros((shapeOData[1],1), dtype=np.intc)
-        self.Ts = np.array(dataset[:][0])
+        self.Ts = np.array(dataset[:,0])
         self.Ts = self.Ts.reshape(shapeOData[0], 1)
-        self.yPred = np.ones((shapeOData[0],1),dtype=np.intc)
+        self.yPred = np.zeros((shapeOData[0],1),dtype=np.intc)
         m = len(self.Ts)
         #for self.itt in range(np.shape(self.Xs)[0]):
             #self.Xs[self.itt][0] = 1
-        for self.itt in range(3000):
+        Z = np.zeros((shapeOData[0],1), dtype = np.double)
+        for self.itt in range(5000):
             Z = np.dot(self.Xs,self.Ws) + bias
             self.A = self.sigmoid(self, Z)
             loss = self.logLoss(self, self.A,self.Ts)
@@ -63,11 +64,31 @@ class LogReg:
                 print(loss)
         i = np.double(0)
         self.itt = np.intc(0)
-        for i in range(self.A):
-            self.itt=self.itt+1
+        for i in (self.sigmoid(self, Z) ):
             if i > np.double(.5):
                 self.yPred[self.itt] = np.intc(1)
-        return self.yPred
+            self.itt=self.itt + 1
+        
+        testZ = np.zeros((testData.shape[0], 1), dtype = np.double)
+        testPreds = np.zeros((testData.shape[0], 1), dtype = np.double)
+        testXs = testData[:,1:]
+        testTs = testData[:,0]
+        testTs = testTs.reshape(testData.shape[0], 1)
+        testZ = np.dot(testXs, self.Ws) + bias
+        i = np.double(0)
+        self.itt = np.intc(0)
+        for i in self.sigmoid(self, testZ):
+            if i > .5:
+                testPreds[self.itt] = 1
+            self.itt = self.itt + 1
+        errCount = np.intc(0)
+        for self.itt in range (testTs.shape[0]):
+            if testTs[self.itt] != testPreds[self.itt]:
+                errCount = errCount + np.intc(1)
+        testErr = np.double(np.double(errCount) / (self.itt + 1))
+        print(testErr)
+        
+
 
 
     def sigmoid(self, Z):
@@ -75,3 +96,5 @@ class LogReg:
 
     def logLoss(self, yPred, target):
         return -np.mean(target * np.log(yPred) + (np.double(1) - target) * np.log(np.double(1) - yPred), dtype=np.double)
+
+    
